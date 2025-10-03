@@ -104,9 +104,10 @@ def predict_genre_user_input():
 if __name__ == "__main__":
     predicted_genre = predict_genre_user_input()
 
+plt.switch_backend('TkAgg')
+
 cm_lr = confusion_matrix(y_test, y_pred_lr)
 
-#Logistic Regression
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Blues',
             xticklabels=le.classes_,
@@ -114,13 +115,11 @@ sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Blues',
 plt.title('Confusion Matrix - Logistic Regression')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
-plt.savefig('confusion_matrix_lr.png')  # Save
-print("Confusion matrix saved as 'confusion_matrix_lr.png'")
+plt.tight_layout()
+plt.show()
 
-# Naive Bayes
 cm_nb = confusion_matrix(y_test, y_pred_nb)
 
-#Confusion matrix
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm_nb, annot=True, fmt='d', cmap='Reds',
             xticklabels=le.classes_,
@@ -128,5 +127,5 @@ sns.heatmap(cm_nb, annot=True, fmt='d', cmap='Reds',
 plt.title('Confusion Matrix - Naive Bayes')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
-plt.savefig('confusion_matrix_nb.png')  # Save
-print("Confusion matrix saved as 'confusion_matrix_nb.png'")
+plt.tight_layout()
+plt.show()
