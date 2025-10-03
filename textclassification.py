@@ -64,3 +64,44 @@ nb.fit(X_train, y_train)
 y_pred_nb = nb.predict(X_test)
 print("Naive Bayes Accuracy:", accuracy_score(y_test, y_pred_nb))
 print(classification_report(y_test, y_pred_nb))
+
+# Function to predict genre for new user input
+import pandas as pd
+import numpy as np
+
+
+def predict_genre_user_input():
+    print("\nPlease enter the following information:")
+
+    age = int(input("• Age: "))
+    country = input("• Country: ").strip().title()
+    subscription_type = input("• Subscription Type (Basic/Standard/Premium): ").strip().title()
+    watch_time_hours = float(input("• Average Watch Time Hours per Month: "))
+    input_df = pd.DataFrame([{
+        "Age": age,
+        "Country": country,
+        "Subscription_Type": subscription_type,
+        "Watch_Time_Hours": watch_time_hours
+    }])
+    input_df = pd.get_dummies(input_df)
+    input_df = input_df.reindex(columns=X_train.columns, fill_value=0)
+    try:
+        pred_idx = log_reg.predict(input_df)[0]
+        predicted_genre = le.inverse_transform([pred_idx])[0]
+        probabilities = log_reg.predict_proba(input_df)[0]
+        print("\n PREDICTION RESULTS")
+        print(f"Predicted Favorite Genre: {predicted_genre}")
+
+        print(f"\n Confidence Scores:")
+        for i, genre in enumerate(le.classes_):
+            confidence = probabilities[i] * 100
+            print(f"   {genre}: {confidence:.1f}%")
+
+    except Exception as e:
+        print(f"Prediction error: {e}")
+        return None
+
+    return predicted_genre
+
+if __name__ == "__main__":
+    predicted_genre = predict_genre_user_input()
