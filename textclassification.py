@@ -1,9 +1,7 @@
 import pandas as pd
 import neattext.functions as nfx
 import seaborn as sns
-import matplotlib
 from matplotlib import pyplot as plt
-matplotlib.use('Agg')
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
