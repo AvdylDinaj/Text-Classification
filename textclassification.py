@@ -15,6 +15,8 @@ df = df.applymap(lambda x: x.lower() if isinstance(x, str) else x)
 df = df.applymap(lambda x: nfx.remove_stopwords(nfx.remove_special_characters(str(x).lower()))
                  if isinstance(x, str) else x)
 
-
+#Exploratory Analysis
+print(df['Subscription_Type'].value_counts())
+print(df['Favorite_Genre'].value_counts())
 
 
