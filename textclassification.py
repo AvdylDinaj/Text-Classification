@@ -1,12 +1,15 @@
 import pandas as pd
 import neattext.functions as nfx
 import seaborn as sns
+import matplotlib
+from matplotlib import pyplot as plt
+matplotlib.use('Agg')
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, ConfusionMatrixDisplay, confusion_matrix
 
 #dataset load and inspect
 df = pd.read_csv("C:/Users/Lenovo/Documents/Desktop/classification/netflix_users.csv")
@@ -65,11 +68,6 @@ y_pred_nb = nb.predict(X_test)
 print("Naive Bayes Accuracy:", accuracy_score(y_test, y_pred_nb))
 print(classification_report(y_test, y_pred_nb))
 
-# Function to predict genre for new user input
-import pandas as pd
-import numpy as np
-
-
 def predict_genre_user_input():
     print("\nPlease enter the following information:")
 
@@ -105,3 +103,30 @@ def predict_genre_user_input():
 
 if __name__ == "__main__":
     predicted_genre = predict_genre_user_input()
+
+cm_lr = confusion_matrix(y_test, y_pred_lr)
+
+#Logistic Regression
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm_lr, annot=True, fmt='d', cmap='Blues',
+            xticklabels=le.classes_,
+            yticklabels=le.classes_)
+plt.title('Confusion Matrix - Logistic Regression')
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.savefig('confusion_matrix_lr.png')  # Save
+print("Confusion matrix saved as 'confusion_matrix_lr.png'")
+
+# Naive Bayes
+cm_nb = confusion_matrix(y_test, y_pred_nb)
+
+#Confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm_nb, annot=True, fmt='d', cmap='Reds',
+            xticklabels=le.classes_,
+            yticklabels=le.classes_)
+plt.title('Confusion Matrix - Naive Bayes')
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.savefig('confusion_matrix_nb.png')  # Save
+print("Confusion matrix saved as 'confusion_matrix_nb.png'")
